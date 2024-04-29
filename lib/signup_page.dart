@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart'; // Import LoginPage untuk navigasi
 
@@ -11,9 +12,13 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   late Color myColor;
   late Size mediaSize;
+
   TextEditingController namedController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  final dio = Dio();
+  final apiUrl = 'https://mobileapis.manpits.xyz/api';
 
   @override
   Widget build(BuildContext context) {
@@ -89,19 +94,27 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildSignUpButton() {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
-        );
-        String name = namedController.text;
-        String email = emailController.text;
-        String password = passwordController.text;
-        // Implement sign up logic here
-        debugPrint("Name: $name");
-        debugPrint("Email: $email");
-        debugPrint("Password: $password");
+        goRegister(context, dio, apiUrl, namedController, emailController,
+            passwordController);
       },
       child: const Text("SIGN UP"),
     );
+  }
+}
+
+void goRegister(BuildContext context, dio, apiUrl, namedController,
+    emailController, passwordController) async {
+  try {
+    final response = await dio.post(
+      '$apiUrl/register',
+      data: {
+        'name': namedController.text,
+        'email': emailController.text,
+        'password': passwordController.text,
+      },
+    );
+    print(response.data);
+  } on DioException catch (e) {
+    print('${e.response} - ${e.response?.statusCode}');
   }
 }

@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:my_app/home_page.dart';
 import 'signup_page.dart';
 
@@ -12,8 +14,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late Color myColor;
   late Size mediaSize;
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  final dio = Dio();
+  final myStorage = GetStorage();
+  final apiUrl = 'https://mobileapis.manpits.xyz/api';
+
   bool rememberUser = false;
 
   @override
@@ -34,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                   size: 100,
                   color: Colors.white,
                 ),
-                Text(
+                const Text(
                   "FARMER.ID",
                   style: TextStyle(
                     color: Colors.white,
@@ -57,7 +65,8 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUpPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpPage()),
                     );
                   },
                   child: _buildGreyText("Sign Up"),
@@ -79,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: const TextStyle(color: Colors.white),
-        enabledBorder: UnderlineInputBorder(
+        enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
         ),
       ),
@@ -123,12 +132,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildLoginButton() {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-        debugPrint("Email : ${emailController.text}");
-        debugPrint("Password : ${passwordController.text}");
+        goLogin(context, dio, myStorage, apiUrl, emailController,
+            passwordController);
       },
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
@@ -157,5 +162,29 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+}
+
+void goLogin(BuildContext context, dio, myStorage, apiUrl, emailController,
+    passwordController) async {
+  try {
+    final response = await dio.post(
+      '$apiUrl/login',
+      data: {
+        'email': emailController.text,
+        'password': passwordController.text,
+      },
+    );
+
+    print(response.data);
+
+    myStorage.write('token', response.data['data']['token']);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
+  } on DioException catch (e) {
+    print('${e.response} - ${e.response?.statusCode}');
   }
 }

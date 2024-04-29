@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:my_app/login_page.dart';
 import 'package:my_app/signup_page.dart'; // Import LoginPage dari login_page.dart
 import 'package:my_app/home_page.dart';
 
-void main() {
+Future<void> main() async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
 

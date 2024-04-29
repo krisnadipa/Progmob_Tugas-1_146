@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/widget/category.dart';
 
@@ -10,6 +12,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final dio = Dio();
+  final myStorage = GetStorage();
+  final apiUrl = 'https://mobileapis.manpits.xyz/api';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +33,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 height: 140,
                 width: double.infinity,
-                color: Colors.black,
+                color: Colors.deepPurple,
               ),
               Column(
                 children: [
@@ -61,7 +67,16 @@ class _HomePageState extends State<HomePage> {
                               "Halo krisna, selamat datang !",
                               style:
                                   GoogleFonts.montserrat(color: Colors.white),
-                            )
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                goUser(dio, myStorage, apiUrl);
+                              },
+                              child: const Text(
+                                'Cek User',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
                           ],
                         ),
                         Container(
@@ -119,5 +134,19 @@ class _HomePageState extends State<HomePage> {
         ],
       )),
     );
+  }
+}
+
+void goUser(dio, myStorage, apiUrl) async {
+  try {
+    final response = await dio.get(
+      '$apiUrl/user',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${myStorage.read('token')}'},
+      ),
+    );
+    print(response.data);
+  } on DioException catch (e) {
+    print('${e.response} - ${e.response?.statusCode}');
   }
 }
