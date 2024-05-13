@@ -27,7 +27,7 @@ class Category extends StatelessWidget {
               Text(
                 title,
                 style: GoogleFonts.montserrat(fontSize: 10),
-              )
+              ),
             ],
           ),
         ),

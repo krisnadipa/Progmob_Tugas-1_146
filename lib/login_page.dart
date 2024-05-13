@@ -22,6 +22,26 @@ class _LoginPageState extends State<LoginPage> {
   final myStorage = GetStorage();
   final apiUrl = 'https://mobileapis.manpits.xyz/api';
 
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      checkLoginStatus();
+    });
+  }
+
+  void checkLoginStatus() {
+    final token = myStorage.read('token');
+    if (token != null) {
+      // Jika pengguna sudah login, arahkan ke halaman login page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    }
+  }
+
   bool rememberUser = false;
 
   @override

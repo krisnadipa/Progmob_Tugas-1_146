@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_app/add_user.dart';
+import 'package:my_app/list_user.dart';
 import 'package:my_app/widget/category.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +18,8 @@ class _HomePageState extends State<HomePage> {
   final myStorage = GetStorage();
   final apiUrl = 'https://mobileapis.manpits.xyz/api';
 
+  get adduser => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +31,7 @@ class _HomePageState extends State<HomePage> {
       ]),
       body: SafeArea(
           child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
             children: [
@@ -118,13 +123,43 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(15),
                     child: Row(
                       children: [
-                        Category(imagePath: "images/farmer.png", title: "Farm"),
+                        Category(
+                          imagePath: "images/farmer.png",
+                          title: "Farm",
+                        ),
                         Category(
                             imagePath: "images/tractor.png", title: "Service"),
                         Category(imagePath: "images/skop.png", title: "Tools"),
                         Category(
                             imagePath: "images/planting.png", title: "Plant"),
                       ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddUser()),
+                      );
+                    },
+                    child: Text(
+                      'Tambah User',
+                      style: TextStyle(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ListUser()),
+                      );
+                    },
+                    child: Text(
+                      'Lihat List User',
+                      style: TextStyle(),
                     ),
                   ),
                 ],
