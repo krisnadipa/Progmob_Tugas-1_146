@@ -4,14 +4,14 @@ import 'package:get_storage/get_storage.dart';
 import 'package:my_app/home_page.dart';
 // import 'package:page_transition/page_transition.dart';
 
-class AddUser extends StatefulWidget {
-  const AddUser({super.key});
+class EditUser extends StatefulWidget {
+  const EditUser({super.key});
 
   @override
-  State<AddUser> createState() => _AddUserState();
+  State<EditUser> createState() => _EditUserState();
 }
 
-class _AddUserState extends State<AddUser> {
+class _EditUserState extends State<EditUser> {
   final dio = Dio();
   final myStorage = GetStorage();
   final apiUrl = 'https://mobileapis.manpits.xyz/api';
@@ -30,7 +30,7 @@ class _AddUserState extends State<AddUser> {
         child: Column(
           children: [
             const Text(
-              'Tambahkan Data Anggota',
+              'Edit Data Anggota',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(

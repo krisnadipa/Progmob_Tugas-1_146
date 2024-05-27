@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/add_user.dart';
 import 'package:my_app/list_user.dart';
+import 'package:my_app/login_page.dart';
 import 'package:my_app/widget/category.dart';
 
 class HomePage extends StatefulWidget {
@@ -73,15 +74,6 @@ class _HomePageState extends State<HomePage> {
                               style:
                                   GoogleFonts.montserrat(color: Colors.white),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                goUser(dio, myStorage, apiUrl);
-                              },
-                              child: const Text(
-                                'Cek User',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
                           ],
                         ),
                         Container(
@@ -125,43 +117,70 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Category(
                           imagePath: "images/farmer.png",
-                          title: "Farm",
+                          title: "Profile",
+                          onCLickButton: () {
+                            goUser(dio, myStorage, apiUrl);
+                          },
                         ),
                         Category(
-                            imagePath: "images/tractor.png", title: "Service"),
-                        Category(imagePath: "images/skop.png", title: "Tools"),
+                          imagePath: "images/tractor.png",
+                          title: "Tambah",
+                          onCLickButton: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddUser()),
+                            );
+                          },
+                        ),
                         Category(
-                            imagePath: "images/planting.png", title: "Plant"),
+                          imagePath: "images/skop.png",
+                          title: "Cek User",
+                          onCLickButton: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ListUser()),
+                            );
+                          },
+                        ),
+                        Category(
+                          imagePath: "images/planting.png",
+                          title: "Logout",
+                          onCLickButton: () {
+                            goLogout(context, dio, myStorage, apiUrl);
+                          },
+                        ),
                       ],
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddUser()),
-                      );
-                    },
-                    child: Text(
-                      'Tambah User',
-                      style: TextStyle(),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ListUser()),
-                      );
-                    },
-                    child: Text(
-                      'Lihat List User',
-                      style: TextStyle(),
-                    ),
-                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => AddUser()),
+                  //     );
+                  //   },
+                  //   child: Text(
+                  //     'Tambah User',
+                  //     style: TextStyle(),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => ListUser()),
+                  //     );
+                  //   },
+                  //   child: Text(
+                  //     'Lihat List User',
+                  //     style: TextStyle(),
+                  //   ),
+                  // ),
                 ],
               )
             ],
@@ -181,6 +200,29 @@ void goUser(dio, myStorage, apiUrl) async {
       ),
     );
     print(response.data);
+  } on DioException catch (e) {
+    print('${e.response} - ${e.response?.statusCode}');
+  }
+}
+
+void goLogout(BuildContext context, dio, myStorage, apiUrl) async {
+  try {
+    final response = await dio.get(
+      '$apiUrl/logout',
+      options: Options(
+        headers: {'Authorization': 'Bearer ${myStorage.read('token')}'},
+      ),
+    );
+    print(response.data);
+
+    // Hapus token dari penyimpanan
+    myStorage.remove('token');
+
+    // Balik ke halaman login
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
   }

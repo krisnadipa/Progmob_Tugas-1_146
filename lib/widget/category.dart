@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Category extends StatelessWidget {
   final String imagePath;
   final String title;
-  const Category({Key? key, required this.imagePath, required this.title})
-      : super(key: key);
+  final VoidCallback onCLickButton;
+  const Category({
+    Key? key,
+    required this.imagePath,
+    required this.title,
+    required this.onCLickButton,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,7 @@ class Category extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Container(
           width: 75,
-          height: 60,
+          height: 72,
           child: Column(
             children: [
               Image.asset(
@@ -24,9 +30,12 @@ class Category extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                title,
-                style: GoogleFonts.montserrat(fontSize: 10),
+              TextButton(
+                onPressed: onCLickButton,
+                child: Text(
+                  title,
+                  style: GoogleFonts.montserrat(fontSize: 10),
+                ),
               ),
             ],
           ),
