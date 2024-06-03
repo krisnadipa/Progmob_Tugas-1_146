@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/add_user.dart';
+import 'package:my_app/edit_user.dart';
 import 'package:my_app/list_user.dart';
 import 'package:my_app/login_page.dart';
 import 'package:my_app/widget/category.dart';
@@ -18,6 +19,23 @@ class _HomePageState extends State<HomePage> {
   final dio = Dio();
   final myStorage = GetStorage();
   final apiUrl = 'https://mobileapis.manpits.xyz/api';
+
+  String userName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
+
+  void loadUserData() {
+    final user = myStorage.read('user');
+    if (user != null) {
+      setState(() {
+        userName = user['name'];
+      });
+    }
+  }
 
   get adduser => null;
 
@@ -70,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                               width: 10,
                             ),
                             Text(
-                              "Halo krisna, selamat datang !",
+                              "Halo, selamat datang $userName !",
                               style:
                                   GoogleFonts.montserrat(color: Colors.white),
                             ),
@@ -154,6 +172,12 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
+                  Text(
+                    "List Anggota",
+                    style: GoogleFonts.montserrat(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+
                   // ElevatedButton(
                   //   onPressed: () {
                   //     Navigator.push(
@@ -182,9 +206,9 @@ class _HomePageState extends State<HomePage> {
                   //   ),
                   // ),
                 ],
-              )
+              ),
             ],
-          )
+          ),
         ],
       )),
     );

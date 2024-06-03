@@ -57,10 +57,10 @@ class _ListUserState extends State<ListUser> {
     }
   }
 
-  void editUser() {
+  void editUser(Map<String, dynamic> user) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EditUser()),
+      MaterialPageRoute(builder: (context) => EditUser(user: user)),
     );
   }
 
@@ -87,7 +87,7 @@ class _ListUserState extends State<ListUser> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              editUser();
+                              editUser(user);
                             },
                             icon: Icon(
                               Icons.edit,

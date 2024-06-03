@@ -199,6 +199,7 @@ void goLogin(BuildContext context, dio, myStorage, apiUrl, emailController,
     print(response.data);
 
     myStorage.write('token', response.data['data']['token']);
+    myStorage.write('user', response.data['data']['user']);
 
     Navigator.push(
       context,
