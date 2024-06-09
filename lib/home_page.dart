@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/add_user.dart';
-import 'package:my_app/edit_user.dart';
+import 'package:my_app/list_transaksi.dart';
 import 'package:my_app/list_user.dart';
 import 'package:my_app/login_page.dart';
 import 'package:my_app/widget/category.dart';
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(items: [
+      bottomNavigationBar: BottomNavigationBar(items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag), label: 'keranjang'),
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                               height: 46,
                               width: 45,
                               decoration: BoxDecoration(
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                       image: AssetImage('images/profile.jpg')),
                                   borderRadius: BorderRadius.circular(25),
                                   border: Border.all(
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                                       style: BorderStyle.solid,
                                       width: 2)),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Text(
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Container(
                           alignment: Alignment.topRight,
-                          child: Icon(
+                          child: const Icon(
                             Icons.notifications_active,
                             color: Colors.white,
                             size: 30,
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Padding(
@@ -121,16 +121,19 @@ class _HomePageState extends State<HomePage> {
                         autofocus: false,
                         decoration: InputDecoration(
                             hintText: "cari alat berkebun terbaik anda",
-                            prefixIcon: Icon(Icons.search),
+                            prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 2),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 2),
                                 borderRadius: BorderRadius.circular(30))),
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       children: [
                         Category(
@@ -147,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AddUser()),
+                                  builder: (context) => const AddUser()),
                             );
                           },
                         ),
@@ -172,11 +175,31 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  Text(
-                    "List Anggota",
-                    style: GoogleFonts.montserrat(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      children: [
+                        Category(
+                          imagePath: "images/planting.png",
+                          title: "Transaksi",
+                          onCLickButton: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ListTransaksi()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
+
+                  // Text(
+                  //   "List Anggota",
+                  //   style: GoogleFonts.montserrat(
+                  //       color: Colors.black, fontWeight: FontWeight.bold),
+                  // ),
 
                   // ElevatedButton(
                   //   onPressed: () {
@@ -245,7 +268,7 @@ void goLogout(BuildContext context, dio, myStorage, apiUrl) async {
     // Balik ke halaman login
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   } on DioException catch (e) {
     print('${e.response} - ${e.response?.statusCode}');
