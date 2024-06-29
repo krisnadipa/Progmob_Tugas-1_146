@@ -71,26 +71,7 @@ class _AddTransaksiState extends State<AddTransaksi> {
             const SizedBox(
               height: 50,
             ),
-            TextField(
-              controller: idAnggotaController,
-              decoration: InputDecoration(
-                  labelText: 'ID Anggota',
-                  labelStyle: const TextStyle(color: Colors.black),
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: const BorderSide(color: Colors.black, width: 2),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 0, 0, 0), width: 2),
-                  )),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+
             TextField(
               controller: trxNominalController,
               decoration: InputDecoration(
@@ -123,6 +104,18 @@ class _AddTransaksiState extends State<AddTransaksi> {
                   value: 2,
                   child: Text('Tambah Saldo'),
                 ),
+                DropdownMenuItem<int>(
+                  value: 3,
+                  child: Text('Tarik Saldo'),
+                ),
+                DropdownMenuItem<int>(
+                  value: 5,
+                  child: Text('Koreksi Penambahan'),
+                ),
+                DropdownMenuItem<int>(
+                  value: 6,
+                  child: Text('Koreksi Pengurangan'),
+                ),
               ],
               onChanged: (value) {
                 setState(() {
@@ -136,17 +129,7 @@ class _AddTransaksiState extends State<AddTransaksi> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  // addUser(
-                  //   context,
-                  //   dio,
-                  //   myStorage,
-                  //   apiUrl,
-                  //   noIndukController,
-                  //   namaController,
-                  //   alamatController,
-                  //   tglLahirController,
-                  //   teleponController,
-                  // );
+                  menuTransaksi();
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

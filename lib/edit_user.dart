@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:my_app/home_page.dart';
 import 'package:my_app/list_user.dart';
 // import 'package:page_transition/page_transition.dart';
 
@@ -60,7 +61,7 @@ class _EditUserState extends State<EditUser> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ListUser(),
+          builder: (context) => HomePage(),
         ),
       );
     } on DioException catch (e) {

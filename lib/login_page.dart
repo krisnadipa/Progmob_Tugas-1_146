@@ -58,12 +58,12 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.agriculture,
+                  Icons.attach_money_sharp,
                   size: 100,
                   color: Colors.white,
                 ),
                 const Text(
-                  "FARMER.ID",
+                  "TIBANK",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

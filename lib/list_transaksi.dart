@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:my_app/add_transaksi.dart';
+import 'package:my_app/saldo_user.dart';
 
 class ListTransaksi extends StatefulWidget {
   const ListTransaksi({super.key});
@@ -49,6 +50,15 @@ class _ListTransaksiState extends State<ListTransaksi> {
     );
   }
 
+  void goSaldo(Map<String, dynamic> user) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SaldoUser(user: user),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +90,7 @@ class _ListTransaksiState extends State<ListTransaksi> {
                           ),
                           IconButton(
                             onPressed: () {
-                              // deleteUser(user['id']);
+                              goSaldo(user);
                             },
                             icon: const Icon(
                               Icons.money,

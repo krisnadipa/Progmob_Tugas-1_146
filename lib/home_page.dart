@@ -137,14 +137,14 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: [
                         Category(
-                          imagePath: "images/farmer.png",
-                          title: "Profile",
+                          iconName: Icons.supervised_user_circle_outlined,
+                          title: 'Profile',
                           onCLickButton: () {
                             goUser(dio, myStorage, apiUrl);
                           },
                         ),
                         Category(
-                          imagePath: "images/tractor.png",
+                          iconName: Icons.add,
                           title: "Tambah",
                           onCLickButton: () {
                             Navigator.push(
@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         Category(
-                          imagePath: "images/skop.png",
+                          iconName: Icons.assignment_ind,
                           title: "Cek User",
                           onCLickButton: () {
                             Navigator.push(
@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         Category(
-                          imagePath: "images/planting.png",
+                          iconName: Icons.logout_outlined,
                           title: "Logout",
                           onCLickButton: () {
                             goLogout(context, dio, myStorage, apiUrl);
@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: [
                         Category(
-                          imagePath: "images/planting.png",
+                          iconName: Icons.candlestick_chart_rounded,
                           title: "Transaksi",
                           onCLickButton: () {
                             Navigator.push(

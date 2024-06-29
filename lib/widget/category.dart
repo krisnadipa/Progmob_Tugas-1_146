@@ -3,12 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Category extends StatelessWidget {
-  final String imagePath;
+  final iconName;
   final String title;
   final VoidCallback onCLickButton;
   const Category({
     Key? key,
-    required this.imagePath,
+    required this.iconName,
     required this.title,
     required this.onCLickButton,
   }) : super(key: key);
@@ -23,10 +23,11 @@ class Category extends StatelessWidget {
           height: 72,
           child: Column(
             children: [
-              Image.asset(
-                imagePath,
-                width: 30,
-              ),
+              // Image.asset(
+              //   iconName,
+              //   width: 30,
+              // ),
+              Icon(iconName),
               SizedBox(
                 height: 10,
               ),
