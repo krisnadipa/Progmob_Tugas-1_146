@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:my_app/home_page.dart';
 import 'package:my_app/list_user.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
@@ -23,22 +22,31 @@ class _AddUserState extends State<AddUser> {
   TextEditingController tglLahirController = TextEditingController();
   TextEditingController teleponController = TextEditingController();
 
+  DateTime selectedDate =
+      DateTime.now(); // Untuk menyimpan tanggal yang dipilih
+
+  // Method untuk menampilkan date picker dan menyimpan tanggal yang dipilih
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        tglLahirController.text = picked.toString().split(
+            ' ')[0]; // Menampilkan tanggal yang dipilih dalam format yyyy-MM-dd
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List Anggota'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(),
-              ),
-            );
-          },
-        ),
+        title: const Text('Add Anggota'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -98,20 +106,29 @@ class _AddUserState extends State<AddUser> {
               ),
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: tglLahirController,
-              decoration: InputDecoration(
-                labelText: 'Tanggal Lahir',
-                labelStyle: const TextStyle(color: Colors.black),
-                fillColor: const Color.fromARGB(255, 255, 255, 255),
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(color: Colors.black, width: 2),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(color: Colors.black, width: 2),
+            InkWell(
+              onTap: () =>
+                  _selectDate(context), // Panggil _selectDate saat tombol tap
+              child: IgnorePointer(
+                child: TextFormField(
+                  controller: tglLahirController,
+                  decoration: InputDecoration(
+                    labelText: 'Tanggal Lahir',
+                    labelStyle: const TextStyle(color: Colors.black),
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide:
+                          const BorderSide(color: Colors.black, width: 2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide:
+                          const BorderSide(color: Colors.black, width: 2),
+                    ),
+                    suffixIcon: const Icon(Icons.calendar_today),
+                  ),
                 ),
               ),
             ),
