@@ -55,7 +55,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
                     );
                   },
                   child: _buildGreyText("Back to Login"),
@@ -70,17 +71,22 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildInputField(TextEditingController controller, String labelText,
       {bool isPassword = false}) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.white),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
-        ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(10),
       ),
-      style: const TextStyle(color: Colors.white),
-      obscureText: isPassword,
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: labelText,
+          labelStyle: const TextStyle(color: Colors.white),
+          border: InputBorder.none,
+        ),
+        style: const TextStyle(color: Colors.white),
+        obscureText: isPassword,
+      ),
     );
   }
 
@@ -97,6 +103,12 @@ class _SignUpPageState extends State<SignUpPage> {
         goRegister(context, dio, apiUrl, namedController, emailController,
             passwordController);
       },
+      style: ElevatedButton.styleFrom(
+        shape: const StadiumBorder(),
+        elevation: 20,
+        shadowColor: myColor,
+        minimumSize: const Size.fromHeight(60),
+      ),
       child: const Text("SIGN UP"),
     );
   }
@@ -114,7 +126,13 @@ void goRegister(BuildContext context, dio, apiUrl, namedController,
       },
     );
     print(response.data);
-  } on DioException catch (e) {
-    print('${e.response} - ${e.response?.statusCode}');
+  } on DioError catch (e) {
+    if (e.response != null) {
+      print('${e.response} - ${e.response!.statusCode}');
+    } else {
+      print('Request failed due to Dio error: $e');
+    }
+  } catch (e) {
+    print('Unexpected error during registration: $e');
   }
 }

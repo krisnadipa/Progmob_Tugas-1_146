@@ -19,14 +19,10 @@ class Category extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
-          width: 75,
-          height: 72,
+          width: 425,
+          height: 80,
           child: Column(
             children: [
-              // Image.asset(
-              //   iconName,
-              //   width: 30,
-              // ),
               Icon(iconName),
               SizedBox(
                 height: 10,

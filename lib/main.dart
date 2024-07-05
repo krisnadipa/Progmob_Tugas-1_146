@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'PROGMOB 1',
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: '/login', // Tentukan rute awal sebagai '/login'
       routes: {
         '/login': (context) => LoginPage(), // Tambahkan rute untuk LoginPage

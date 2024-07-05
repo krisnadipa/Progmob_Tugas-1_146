@@ -42,198 +42,196 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag), label: 'keranjang'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile')
-      ]),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'user'),
+          BottomNavigationBarItem(icon: Icon(Icons.wallet), label: 'Wallet'),
+        ],
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              // Navigasi ke halaman Home
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+              break;
+            case 1:
+              // Navigasi ke halaman Anggota
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ListUser()),
+              );
+              break;
+            case 2:
+              // Navigasi ke halaman Wallet
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ListTransaksi()),
+              );
+              break;
+          }
+        },
+      ),
       body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 140,
-                width: double.infinity,
-                color: Colors.deepPurple,
-              ),
-              Column(
+              Stack(
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              alignment: Alignment.topLeft,
-                              height: 46,
-                              width: 45,
-                              decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                      image: AssetImage('images/profile.jpg')),
-                                  borderRadius: BorderRadius.circular(25),
-                                  border: Border.all(
-                                      color: Colors.white,
-                                      style: BorderStyle.solid,
-                                      width: 2)),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Halo, selamat datang $userName !",
-                              style:
-                                  GoogleFonts.montserrat(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: const Icon(
-                            Icons.notifications_active,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Container(
-                      height: 60,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: TextField(
-                        cursorHeight: 20,
-                        autofocus: false,
-                        decoration: InputDecoration(
-                            hintText: "cari alat berkebun terbaik anda",
-                            prefixIcon: const Icon(Icons.search),
-                            border: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 2),
-                                borderRadius: BorderRadius.circular(30))),
+                  Container(
+                    height: 140,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Colors.deepPurple,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
+                  Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  height: 46,
+                                  width: 45,
+                                  decoration: BoxDecoration(
+                                    image: const DecorationImage(
+                                      image: AssetImage('images/profile.jpg'),
+                                    ),
+                                    borderRadius: BorderRadius.circular(25),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      style: BorderStyle.solid,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  "Halo, selamat datang $userName !",
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              alignment: Alignment.topRight,
+                              child: const Icon(
+                                Icons.notifications_active,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 75),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Category(
+                              iconName: Icons.add,
+                              title: "Tambah",
+                              onCLickButton: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AddUser()),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Category(
+                              iconName: Icons.assignment_ind,
+                              title: "List User",
+                              onCLickButton: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ListUser()),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Category(
+                              iconName: Icons.candlestick_chart_rounded,
+                              title: "Transaksi",
+                              onCLickButton: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ListTransaksi()),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Category(
+                              iconName: Icons.logout_outlined,
+                              title: "Logout",
+                              onCLickButton: () {
+                                goLogout(context, dio, myStorage, apiUrl);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          children: [
+                            Category(
+                              iconName: Icons.candlestick_chart_rounded,
+                              title: "tes",
+                              onCLickButton: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ListTransaksi()),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        Category(
-                          iconName: Icons.supervised_user_circle_outlined,
-                          title: 'Profile',
-                          onCLickButton: () {
-                            goUser(dio, myStorage, apiUrl);
-                          },
-                        ),
-                        Category(
-                          iconName: Icons.add,
-                          title: "Tambah",
-                          onCLickButton: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AddUser()),
-                            );
-                          },
-                        ),
-                        Category(
-                          iconName: Icons.assignment_ind,
-                          title: "Cek User",
-                          onCLickButton: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ListUser()),
-                            );
-                          },
-                        ),
-                        Category(
-                          iconName: Icons.logout_outlined,
-                          title: "Logout",
-                          onCLickButton: () {
-                            goLogout(context, dio, myStorage, apiUrl);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        Category(
-                          iconName: Icons.candlestick_chart_rounded,
-                          title: "Transaksi",
-                          onCLickButton: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ListTransaksi()),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Text(
-                  //   "List Anggota",
-                  //   style: GoogleFonts.montserrat(
-                  //       color: Colors.black, fontWeight: FontWeight.bold),
-                  // ),
-
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) => AddUser()),
-                  //     );
-                  //   },
-                  //   child: Text(
-                  //     'Tambah User',
-                  //     style: TextStyle(),
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) => ListUser()),
-                  //     );
-                  //   },
-                  //   child: Text(
-                  //     'Lihat List User',
-                  //     style: TextStyle(),
-                  //   ),
-                  // ),
                 ],
               ),
             ],
           ),
-        ],
-      )),
+        ),
+      ),
     );
   }
 }

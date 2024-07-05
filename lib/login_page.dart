@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,7 +14,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late Color myColor;
   late Size mediaSize;
 
   TextEditingController emailController = TextEditingController();
@@ -26,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       checkLoginStatus();
     });
   }
@@ -34,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   void checkLoginStatus() {
     final token = myStorage.read('token');
     if (token != null) {
-      // Jika pengguna sudah login, arahkan ke halaman login page
+      // Jika pengguna sudah login, arahkan ke halaman homepage
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
@@ -46,10 +47,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    myColor = Theme.of(context).primaryColor;
     mediaSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: myColor,
+      backgroundColor: Color.fromARGB(255, 45, 73, 199),
       body: Container(
         child: Center(
           child: Padding(
@@ -103,17 +103,22 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildInputField(TextEditingController controller, String labelText,
       {bool isPassword = false}) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.white),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
-        ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(10),
       ),
-      style: const TextStyle(color: Colors.white),
-      obscureText: isPassword,
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: labelText,
+          labelStyle: const TextStyle(color: Colors.white),
+          border: InputBorder.none,
+        ),
+        style: const TextStyle(color: Colors.white),
+        obscureText: isPassword,
+      ),
     );
   }
 
@@ -138,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                 });
               },
             ),
-            _buildGreyText("Remember me"),
+            _buildGreyText("Ingat saya"),
           ],
         ),
         TextButton(
@@ -158,7 +163,6 @@ class _LoginPageState extends State<LoginPage> {
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
         elevation: 20,
-        shadowColor: myColor,
         minimumSize: const Size.fromHeight(60),
       ),
       child: const Text("LOGIN"),
@@ -169,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
     return Center(
       child: Column(
         children: [
-          _buildGreyText("Or Login with"),
+          _buildGreyText("Atau masuk dengan"),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -205,7 +209,13 @@ void goLogin(BuildContext context, dio, myStorage, apiUrl, emailController,
       context,
       MaterialPageRoute(builder: (context) => const HomePage()),
     );
-  } on DioException catch (e) {
-    print('${e.response} - ${e.response?.statusCode}');
+  } on DioError catch (e) {
+    if (e.response != null) {
+      print('${e.response} - ${e.response!.statusCode}');
+    } else {
+      print('Request failed due to Dio error: $e');
+    }
+  } catch (e) {
+    print('Unexpected error during login: $e');
   }
 }

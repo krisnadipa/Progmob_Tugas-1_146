@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:my_app/edit_user.dart';
+import 'package:my_app/add_user.dart';
 
 class ListUser extends StatefulWidget {
   ListUser({super.key});
@@ -31,7 +32,6 @@ class _ListUserState extends State<ListUser> {
         ),
       );
 
-      // print(response.data);
       setState(() {
         users = response.data['data']['anggotas'];
       });
@@ -71,7 +71,7 @@ class _ListUserState extends State<ListUser> {
         title: const Text('List User'),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: users.isEmpty
             ? const Center(child: CircularProgressIndicator())
             : ListView.builder(
@@ -79,8 +79,25 @@ class _ListUserState extends State<ListUser> {
                 itemBuilder: (BuildContext context, int index) {
                   final user = users[index];
                   return Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                     child: ListTile(
-                      title: Text(user['nama']),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.deepPurple,
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ),
+                      ),
+                      title: Text(
+                        user['nama'],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
+                      ),
                       subtitle: Text(user['tgl_lahir']),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -91,6 +108,7 @@ class _ListUserState extends State<ListUser> {
                             },
                             icon: Icon(
                               Icons.edit,
+                              color: Colors.blue,
                             ),
                           ),
                           IconButton(
@@ -99,6 +117,7 @@ class _ListUserState extends State<ListUser> {
                             },
                             icon: Icon(
                               Icons.delete,
+                              color: Colors.red,
                             ),
                           )
                         ],
@@ -107,6 +126,16 @@ class _ListUserState extends State<ListUser> {
                   );
                 },
               ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddUser()),
+          );
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.deepPurple,
       ),
     );
   }
